@@ -1,35 +1,26 @@
 package main
 
 import (
-	"fmt"
-	"time"
+	"github.com/foxlovecat1989/blockchain/blockchain"
+	"log"
 )
 
-type block struct {
-	transactions []string
-	nonce        string
-	prevHash     string
-	timestamp    int64
+func init() {
+	log.SetPrefix("Blockchain: ")
 }
 
-func NewBlock(prevHash string, nonce string) *block {
-	return &block{
-		transactions: []string{},
-		nonce:        nonce,
-		prevHash:     prevHash,
-		timestamp:    time.Now().Unix(),
-	}
-}
-
-func (b *block) Print(block block) {
-	fmt.Printf("Block: %v\n", block)
-	fmt.Printf("transactions: %v\n", block.transactions)
-	fmt.Printf("nonce: %v\n", block.nonce)
-	fmt.Printf("prevHash: %v\n", block.prevHash)
-	fmt.Printf("timestamp: %v\n", block.timestamp)
-}
+const name = "ed"
 
 func main() {
-	block := NewBlock("123", "456")
-	block.Print(*block)
+	chain := blockchain.NewBlockChain(name)
+	chain.AddTransaction("A", "B", 100)
+	chain.Mining()
+	chain.AddTransaction("X", "Y", 50)
+	chain.AddTransaction("Y", "Z", 25)
+	chain.Mining()
+	chain.AddTransaction("B", "C", 200)
+	chain.AddTransaction("C", "D", 100)
+	chain.AddTransaction("D", "E", 50)
+	chain.Mining()
+	chain.Print()
 }
